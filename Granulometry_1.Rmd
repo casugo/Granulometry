@@ -1,0 +1,136 @@
+---
+title: "Granulometry Analysis"
+author: "Catalina Suescun"
+date: '2022-11-18'
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+# Load Libraries
+library(tidyverse)
+library(here)
+library(kableExtra)
+library(ggpubr)
+library(rmarkdown)
+```
+
+
+```{r}
+# Data Loading ----
+## Loading the paths
+files <- 
+  here::here("Data","Analysis") %>%
+   dir( recursive=TRUE, full.names=TRUE, pattern="\\.csv$")
+```
+```{r}
+## Creating the Nested dataframe ----
+Granulometry <- files %>%  map( ~ read.csv(.))
+Granulometry <- Granulometry %>%   set_names(files) %>% enframe("Size", "Datos")
+
+## Organising the dataframe
+Granulometry <- 
+Granulometry %>%  
+  separate(Size,
+           sep = "/",
+           into = c(c(LETTERS[1:13]), c("Sample"))
+           )            %>% 
+  select(-c(LETTERS[1:13]), "Sample", "Datos")
+
+
+## Adusting the Table
+Granulometry <- 
+   Granulometry %>%  
+   separate(Sample, 
+            sep = "_",
+            into = c(c(LETTERS[1:2]))
+            )
+# Changing the names
+colnames(Granulometry) <- c("Material", "Sample", "Datos")
+
+# Unnesting the total dataframe for graphics
+Granulometry <- Granulometry %>% unnest(Datos)
+
+Granulometry <- 
+   Granulometry %>%  
+   separate(X.Area.Mean.StdDev.Min.Max.Perim..Median, 
+            sep = ";",
+            into = c(c(LETTERS[1:8]))
+                  ) %>% 
+       select(-c("A","C","D","E","F","G","H"))
+
+# Changing the names
+colnames(Granulometry) <- c( "Material", "Sample", "Area")
+
+```
+
+```{r}
+#Transform Character columns in numbers
+
+Granulometry <- transform(Granulometry, Area = as.numeric(Area))
+
+
+A<- Granulometry %>%
+  filter(Sample=="1.5mm.csv") 
+
+Granulometry %>%
+  ggplot(A,aes(x = Area)) +
+  geom_histogram() 
+  labs(y="Number of particles", x="Area")
+  #facet_grid( Granulometry$Sample ~ .) +
+  #theme_minimal() 
+```
+
+ #Organizing Factors
+Granulometry$Sample <- factor(Granulometry$Sample, levels = c("+5mm.csv", "1.5mm.csv", "3mm.csv", "5mm.csv"))
+Granulometry$Sample %>% as.factor() %>% levels()
+
+
+Granulometry %>%
+  ggplot(aes(x = Area)) +
+  geom_histogram() 
+  facet_grid( Granulometry$Sample ~ .) +
+  theme_minimal() 
+
+```
+  
+  
+  
+  ```
+
+ #Organizing Factors
+Granulometry$Sample <- factor(Granulometry$Sample, levels = c("+5mm", "1.5mm", "3mm", "5mm"))
+Granulometry$Sample %>% as.factor() %>% levels()
+
+Granulometry %>%
+  
+
+```
+
+```{r}
+#Mean and stddev calculations
+Granulometry %>%
+  filter(Sample=="1.5mm")  %>%
+  summarise(sd(Area), mean(Area))
+
+```
+
+`
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
