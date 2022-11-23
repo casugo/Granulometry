@@ -5,9 +5,8 @@ date: '2022-11-18'
 output: word_document
 ---
   
- 
+  ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-
 # Load Libraries
 library(tidyverse)
 library(here)
@@ -15,13 +14,19 @@ library(kableExtra)
 library(ggpubr)
 library(rmarkdown)
 library(usethis)
+usethis::create_github_token()
 
+```
+
+
+```{r}
 # Data Loading ----
 ## Loading the paths
 files <- 
   here::here("Data","Analysis") %>%
   dir( recursive=TRUE, full.names=TRUE, pattern="\\.csv$")
-
+```
+```{r}
 ## Creating the Nested dataframe ----
 Granulometry <- files %>%  map( ~ read.csv(.))
 Granulometry <- Granulometry %>%   set_names(files) %>% enframe("Size", "Datos")
@@ -59,10 +64,14 @@ Granulometry <-
 
 # Changing the names
 colnames(Granulometry) <- c( "Material", "Sample", "Area")
+```
 
+
+```{r}
 #Transform Character columns in numbers
 Granulometry <- transform(Granulometry, Area = as.numeric(Area))
-
+```
+```{r}
 #filtration of the data for size
 Size1.5 <- Granulometry %>%
   filter(Sample=="1.5mm.csv")
@@ -101,3 +110,4 @@ yfit = yfit*diff(h$mids [1:2])* length (x)
 lines (xfit , yfit, col ="red", lwd = 3)
 box()
 
+```
