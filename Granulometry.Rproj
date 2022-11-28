@@ -1,44 +1,13 @@
----
-title: "Granulometry Analysis"
-author: "Catalina Suescun"
-date: '2022-11-18'
-output: word_document
----
+Version: 1.0
 
+RestoreWorkspace: Default
+SaveWorkspace: Default
+AlwaysSaveHistory: Default
 
+EnableCodeIndexing: Yes
+UseSpacesForTab: Yes
+NumSpacesForTab: 2
+Encoding: UTF-8
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-# Load Libraries
-library(tidyverse)
-library(here)
-library(kableExtra)
-library(ggpubr)
-```
-
-```{r}
-# Data Loading ----
-## Loading the paths
-files <- 
-  here::here("Data","Analysis") %>%
-  dir (recursive=TRUE, full.names = TRUE,pattern = "\\.csv$")
-```
-```{r}
-## Creating the Nested dataframe ----
-Granulometry <- files %>%  map( ~ read.csv(.))
-Granulometry <- Granulometry %>%   set_names(files) %>%   enframe("Type of sifter", "Data")
-# Changing the names of the document
-nombres <- [[1:4]]$...1 %>% na.omit()
-nombres <- c("+5mm", "1.5", "3mm", "5mm")
-```
-
-```{r}
-## Organising the dataframe
-Granulometry <- 
-  Granulometry %>%  
-  separate(Data, 
-           sep = "/",
-           into = c(c(LETTERS[1:7]), c("Sample"))) %>% 
-  select(-c(LETTERS[1:9]), J, -c("K", "L"), "Sample", "Data")
-
-```
+RnwWeave: Sweave
+LaTeX: pdfLaTeX
