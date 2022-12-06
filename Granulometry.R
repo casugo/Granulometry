@@ -13,7 +13,7 @@ library(kableExtra)
 library(ggpubr)
 library(rmarkdown)
 library(usethis)
-usethis::create_github_token()
+
 
 
 
@@ -61,7 +61,6 @@ Granulometry <-
 # Changing the names
 colnames(Granulometry) <- c( "Material", "Sample", "Area")
 
-
 #Transform Character columns in numbers
 Granulometry <- transform(Granulometry, Area = as.numeric(Area))
 
@@ -86,7 +85,7 @@ box()
 
 #Ploting size 3
 
-x = Size3$Area
+S3 = Size3$Area
 h = hist (x,col =  "blue", xlab = "Area", ylab= "Number of particles",  main = "Granulometry 3mm")
 xfit = seq(min(x), max(x), length= 20)
 yfit = dnorm (xfit, mean = mean(x),sd = sd(x))
@@ -95,7 +94,7 @@ lines (xfit , yfit, col ="red", lwd = 3)
 box()
 
 #Ploting size 5
-x = Size5$Area
+S5 = Size5$Area
 h = hist (x,col =  "blue", xlab = "Area", ylab= "Number of particles", main = "Granulometry 5mm")
 xfit = seq(min(x), max(x), length= 20)
 yfit = dnorm (xfit, mean = mean(x),sd = sd(x))
