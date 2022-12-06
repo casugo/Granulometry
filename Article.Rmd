@@ -1,0 +1,78 @@
+---
+title: Short Paper from Catalina
+classoption: 12pt, preprint,
+geometry: "left=3cm,right=2cm,top=2cm,bottom=2cm"
+author:
+  - name: Catalina
+    email: catalina@univ-lorraine
+    affiliation: UL
+    footnote: 1
+address:
+  - code: UL
+    address: Universite de Lorraine, ERPI, F-54000 Nancy, France
+footnote:
+  - code: 1
+    text: "Corresponding Author"
+    
+abstract: |
+  This is the abstract.
+
+  It consists of two paragraphs.
+keywords: 
+  - keyword1
+  - keyword2
+journal: "An awesome journal"
+date: "`r Sys.Date()`"
+link-citations: yes
+linkcolor: blue
+bibliography: assets/mybibfile.bib
+linenumbers: false
+numbersections: true
+csl: assets/elsevier-harvard.csl
+output:
+  bookdown::pdf_book:
+    keep_tex: false
+    toc: false
+    base_format: rticles::elsevier_article
+    citation_package: default
+    
+---
+
+
+```{r setup, include=FALSE, echo=FALSE}
+library(kableExtra)
+library(tidyverse)
+library(readxl)
+knitr::opts_chunk$set(echo = FALSE, fig.retina = 3, 
+                      message = FALSE, warning = FALSE,
+                      out.width = '90%',
+                      fig.align = 'center',
+                      fig.pos = "H",
+                      out.extra = "")
+options(knitr.kable.NA = '')
+```
+
+# Introduction
+<!-- Plastics topic -->
+\linenumbers
+
+
+# Introduction
+
+Here are two sample references: @Feynman1963118 [@Dirac1953888].
+
+# Methodology
+
+# Results
+
+## Granulometry
+
+Figure \@ref(fig:figure5) is imported.
+
+```{r figure5, fig.cap="Granulometry", out.width='80%'}
+knitr::include_graphics("Figures/Granulometry.png")
+```
+
+
+# References {-}
+
