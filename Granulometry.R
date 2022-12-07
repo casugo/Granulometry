@@ -58,10 +58,12 @@ data_mean$st=round(data_mean$st, 1)
 
 ### Making the Histographs ----
 
+
 Granulometry %>% filter(Granulometry != "+5mm" ) %>% 
   ggplot(aes( Area )) + 
   geom_histogram(binwidth=0.2, color="black", fill="lightblue") +
-  facet_wrap( ~ Granulometry , ncol=1) + 
+  geom_density(aes(y=..density..*20), colour="blue") + 
+  facet_wrap( ~ Granulometry , ncol=1) +
   geom_text(data = data_mean   , 
             aes(x = c(4, 6, 10), y = c(7,7,7)), 
             label = paste( data_mean$mean, data_mean$st, sep = " \u00B1 "), 
@@ -77,51 +79,11 @@ Granulometry %>% filter(Granulometry != "+5mm" ) %>%
   labs(title="Granulometry analysis of the feedstock material",  
        subtitle = "Using 3 types of grid" ,
        y="Frequency", x="Pellet area  [mm2]" ) +
-  theme(plot.background = element_rect(fill = "white"))
+  theme(plot.background = element_rect(fill = "white")) 
+  
+
 
 ### Saving the Figure
 
 ggsave( here("Figures/Granulometry.png") , width = 6, height = 8, dpi="print" )
-
-
-
-#filtration of the data for size
-Size1.5 <- 
-  Granulometry %>%
-  filter(Sample=="1.5mm.csv")
-
-Size3 <- Granulometry %>%
-  filter(Sample=="3mm.csv")
-
-Size5 <- Granulometry %>%
-  filter(Sample=="5mm.csv")
-
-#Ploting size 1.5
-S1.5 = Size1.5$Area
-h = hist (S1.5,col =  "blue", xlab = "Area", ylab= "Number of particles",  main = "Granulometry 1.5mm")
-xfit = seq(min(S1.5), max(S1.5), length= 20)
-yfit = dnorm (xfit, mean = mean(S1.5),sd = sd(S1.5))
-yfit = yfit*diff(h$mids [1:2])* length (S1.5)
-lines (xfit , yfit, col ="red", lwd = 2)
-box()
-
-#Ploting size 3
-
-S3 = Size3$Area
-h = hist (x,col =  "blue", xlab = "Area", ylab= "Number of particles",  main = "Granulometry 3mm")
-xfit = seq(min(x), max(x), length= 20)
-yfit = dnorm (xfit, mean = mean(x),sd = sd(x))
-yfit = yfit*diff(h$mids [1:2])* length (x)
-lines (xfit , yfit, col ="red", lwd = 3)
-box()
-
-#Ploting size 5
-S5 = Size5$Area
-h = hist (x,col =  "blue", xlab = "Area", ylab= "Number of particles", main = "Granulometry 5mm")
-xfit = seq(min(x), max(x), length= 20)
-yfit = dnorm (xfit, mean = mean(x),sd = sd(x))
-yfit = yfit*diff(h$mids [1:2])* length (x)
-lines (xfit , yfit, col ="red", lwd = 3)
-box()
-
 
