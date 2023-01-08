@@ -87,3 +87,8 @@ Granulometry %>% filter(Granulometry != "+5mm" ) %>%
 
 ggsave( here("Figures/Granulometry.png") , width = 6, height = 8, dpi="print" )
 
+
+### Saving the Figure
+
+ggsave( here("Figures/Granulometry.png") , width = 6, height = 8, dpi="print" )
+
