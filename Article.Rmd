@@ -35,6 +35,7 @@ output:
     toc: false
     base_format: rticles::elsevier_article
     citation_package: default
+ bookdown::p:
     
 ---
 

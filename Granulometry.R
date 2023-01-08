@@ -75,7 +75,7 @@ Granulometry %>% filter(Granulometry != "+5mm" ) %>%
   #coord_cartesian(xlim = c(10,18), ylim=c(0,8)) +
   theme_minimal(base_size = 15, base_family = "Palatino") +
   labs(title="Granulometry analysis of the feedstock material",  
-       subtitle = "Using 3 types of grid" ,
+       subtitle = "Using 3 different sifters" ,
        y="Frequency", x="Pellet area  [mm2]" ) +
   theme(plot.background = element_rect(fill = "white"))
 
