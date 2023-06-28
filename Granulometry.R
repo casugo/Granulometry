@@ -49,7 +49,7 @@ data_mean <-
             st = sd(Area))
 
 ### Filtering and reducing digits ----
-data_mean <- data_mean %>% filter(Granulometry != "+5mm" )
+data_mean <- data_mean %>% filter(Granulometry != "+5mm"& Granulometry != "vPET Ref" )
 data_mean$mean=round(data_mean$mean, 2)
 data_mean$st=round(data_mean$st, 1)
 
@@ -59,11 +59,11 @@ data_mean$st=round(data_mean$st, 1)
 ### Making the Histographs ----
 
 
-Granulometry %>% filter(Granulometry != "+5mm" ) %>% 
+Granulometry %>% filter(Granulometry != "+5mm" & Granulometry != "vPET Ref" ) %>% 
   ggplot(aes( Area )) + 
   geom_histogram(binwidth=0.2, color="black", fill="lightblue") +
-  geom_density(aes(y=..density..*20), colour="blue") + 
-  facet_wrap( ~ Granulometry , ncol=1) +
+  #geom_density(aes(y=..density..*20), colour="blue") + 
+  facet_wrap( ~ Granulometry  , nrow=1) +
   geom_text(data = data_mean   , 
             aes(x = c(4, 6, 10), y = c(7,7,7)), 
             label = paste( data_mean$mean, data_mean$st, sep = " \u00B1 "), 
@@ -75,7 +75,7 @@ Granulometry %>% filter(Granulometry != "+5mm" ) %>%
   scale_x_continuous(breaks = c(0, 5, 10, 15),
                       limits = c(0,15))  +
   #coord_cartesian(xlim = c(10,18), ylim=c(0,8)) +
-  theme_minimal(base_size = 15, base_family = "Palatino") +
+  #theme_minimal(base_size = 15, base_family = "Palatino") +
   labs(title="Granulometry analysis of the feedstock material",  
        subtitle = "Using 3 different sifters" ,
        y="Frequency", x="Pellet area  [mm2]" ) +
@@ -85,7 +85,7 @@ Granulometry %>% filter(Granulometry != "+5mm" ) %>%
 
 ### Saving the Figure
 
-ggsave( here("Figures/Granulometry.png") , width = 6, height = 8, dpi="print" )
+ggsave( here("Figures/Granulometry-KPI.png") , width = 10, height = 6, dpi="print" )
 
 
 
