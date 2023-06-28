@@ -41,7 +41,7 @@ Granulometry <- Granulometry %>% unnest(Datos)
 ### Transforming type data to numeric -----
 Granulometry$Area <- as.numeric(Granulometry$Area)
 
-## Additinoal database for the Mean values for each type of Granulometry ----
+## Additional database for the Mean values for each type of Granulometry ----
 data_mean <- 
   Granulometry %>% 
   group_by(Granulometry) %>% 
@@ -65,7 +65,7 @@ Granulometry %>% filter(Granulometry != "+5mm" & Granulometry != "vPET Ref" ) %>
   #geom_density(aes(y=..density..*20), colour="blue") + 
   facet_wrap( ~ Granulometry  , nrow=1) +
   geom_text(data = data_mean   , 
-            aes(x = c(4, 6, 10), y = c(7,7,7)), 
+            aes(x = c(3, 6, 10, 10), y = c(7,7,7,7)), 
             label = paste( data_mean$mean, data_mean$st, sep = " \u00B1 "), 
             vjust = 1, 
             hjust=0) + 
@@ -86,6 +86,7 @@ Granulometry %>% filter(Granulometry != "+5mm" & Granulometry != "vPET Ref" ) %>
 ### Saving the Figure
 
 ggsave( here("Figures/Granulometry-KPI.png") , width = 10, height = 6, dpi="print" )
+
 
 
 
